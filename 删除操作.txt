@@ -1,0 +1,90 @@
+////删除某一特定节点
+public static Node deleteOneNode(Node head, Node delNode) {
+	if (head == null || delNode == null)
+		return head;
+	if (delNode.next == null) {
+		// 尾节点
+		Node temp = head;
+		while (temp.next != null) {
+			if (temp.next == delNode)
+				temp.next = delNode.next;
+			temp = temp.next;
+		}
+	} else {
+		// 非尾节点
+		Node p = delNode.next;
+		delNode.value = p.value;
+		delNode.next = p.next;
+	}
+	return head;
+}
+
+//删除倒数第n个节点
+
+public static Node removeNthLastNode(Node head, int n) {
+	if (head == null || n < 0)
+		return head;
+	if(n > getListLength(head))
+		return null;
+	Node temp = head;
+	Node target = head;
+	while (n > 0) {
+		temp = temp.next;// 定位倒数第n个节点
+		n--;
+	}
+	// System.out.print("temp.value: " + temp.value + "  ");
+	// 删除第一个节点
+	if (temp == null)
+		return head.next;
+	while (temp.next != null) {
+		target = target.next;// 定位倒数第n+1个节点
+		temp = temp.next;
+	}
+	temp = null;
+	// System.out.print("target.value: " + target.value + "  ");
+	if (target.next != null)
+		target.next = target.next.next;
+	return head;
+}
+
+//去除有序链表的重复元素 对于重复元素只保留一个。
+public static Node removeDuplicateList(Node head) {
+	if (head == null || head.next == null)
+		return head;
+	Node pre = head;
+	while (head != null && head.next != null) {
+		if (head.value == head.next.value) {
+			head = head.next.next;
+		} else {
+			head = head.next;
+		}
+	}
+	return pre;
+}
+
+//去除有序链表的重复元素 对于重复元素全部删掉。
+public static Node removeDuplicateListAll(Node head) {
+	if (head == null || head.next == null)
+		return head;
+	Node pre = new Node(0);
+	pre.next = head;
+	Node fir = pre;// fir保存的是当前节点的前一个节点
+	Node sec = head;
+	while (sec != null) {
+		int value = sec.value;
+		int count_repeat = 0;
+		while (sec != null && value == sec.value) {
+			sec = sec.next;
+			count_repeat++;// 统计每个节点重复次数
+		}
+		if (count_repeat > 1) {// 若出现次数大于1，说明该节点对应的值需要删掉
+			fir.next = sec;
+		} else {
+			fir = fir.next;
+		}
+		if (fir != null) {
+			sec = fir.next;
+		}
+	}
+	return pre.next;
+}

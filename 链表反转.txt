@@ -1,0 +1,48 @@
+//链表反转(循环方式实现)
+public static Node reverseList(Node head) {
+	if (head == null || head.next == null)
+		return head;
+	Node pre = null;
+	Node nex = null;
+	while (head != null) {
+		nex = head.next;
+		head.next = pre;
+		pre = head;
+		head = nex;
+	}
+	return pre;
+}
+
+//链表反转第m到第n个元素(循环方式实现)
+public static Node reverseListBetween(Node head, int m, int n) {
+	if (head == null || head.next == null)
+		return head;
+	Node helper = new Node(0);
+	helper.next = head;
+	Node nex = head;
+	Node pre = helper;
+	// 首先定位到第m个节点
+	for (int i = 1; i < m; i++) {
+		pre = nex;
+		nex = nex.next;
+	}
+	// 然后将第m到第n个节点进行反转
+	for (int i = 1; i <= n - m; i++) {
+		Node temp = nex.next;
+		nex.next = temp.next;
+		temp.next = pre.next;
+		pre.next = temp;
+	}
+	return helper.next;
+}
+
+//链表反转(递归方式实现)
+public static Node reverseListRecursive(Node head) {
+	if (head == null || head.next == null)
+		return head;
+	Node nex = reverseListRecursive(head.next);
+	head.next.next = head;
+	head.next = null;
+	return nex;
+}
+

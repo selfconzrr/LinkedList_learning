@@ -1,0 +1,53 @@
+//合并两个有序的单链表head1和head2(递归方式实现)
+public static Node mergeTwoListRecursive(Node head1, Node head2) {
+	if (head1 == null)
+		return head2;
+	if (head2 == null)
+		return head1;
+	Node head;
+	if (head1.value < head2.value) {
+		head = head1;
+		head1.next = mergeTwoListRecursive(head1.next, head2);
+	} else {
+		head = head2;
+		head2.next = mergeTwoListRecursive(head1, head2.next);
+	}
+	return head;
+}
+
+//合并两个有序的单链表head1和head2(循环方式实现) 归并的思想
+
+public static Node mergeTwoList(Node head1, Node head2) {
+	if (head1 == null)
+		return head2;
+	if (head2 == null)
+		return head1;
+	Node head = new Node(0);
+	Node temp = head;
+	while (head1 != null && head2 != null) {
+		if (head1.value < head2.value) {
+			temp = head1;
+			head1 = head1.next;
+		} else {
+			temp = head2;
+			head2 = head2.next;
+		}
+		temp = temp.next;
+	}
+	if (head1 != null)
+		temp.next = head1;
+	if (head2 != null)
+		temp.next = head2;
+	return head.next;
+}
+//合并k个有序的单链表(循环方式实现)  归并的思想
+public Node mergeKLists(ArrayList<Node> lists) {
+	if (lists == null || lists.size() == 0)
+		return null;
+
+	Node list_head = lists.get(0);
+	for (int i = 1; i < lists.size(); i++) {
+		list_head = mergeTwoList(list_head, lists.get(i));
+	}
+	return list_head;
+}

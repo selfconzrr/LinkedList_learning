@@ -1,0 +1,108 @@
+//前后两两交换元素的值。循环的思想
+public static Node swapPairsXH(Node head) {
+	if (head == null || head.next == null)
+		return head;
+	Node helper = new Node(0);
+	helper.next = head;
+	Node pre = helper;
+	Node cur = head;
+	Node temp;
+	while (cur != null && cur.next != null) {
+		temp = cur.next;
+		cur.next = temp.next;
+		temp.next = pre.next;
+		pre.next = temp;
+		pre = cur;
+		cur = cur.next;
+	}
+	return helper.next;
+}
+//前后两两交换元素的值。递归的思想
+public static Node swapPairs(Node head) {
+	if (head == null || head.next == null)
+		return head;
+	Node temp = head.next;
+	head.next = swapPairs(temp.next);
+	temp.next = head;
+	return temp;
+}
+
+//小于x的节点排在前面，大于等于x的节点排在后面
+public static Node partition(Node head, int x) {
+	if (head == null)
+		return head;
+	Node first = new Node(0);
+	Node second = new Node(0);
+	Node temp_fir = first;
+	Node temp_sec = second;
+	while (head != null) {
+		if (head.value < x) {
+			first.next = head;
+			first = first.next;
+		} else {
+			second.next = head;
+			second = second.next;
+		}
+		head = head.next;
+	}
+	second.next = null;// /如果链表最后一个元素小于x，则second.next不为null
+	first.next = temp_sec.next;//拼接
+	return temp_fir.next;
+}
+
+//把右边k个节点移动到最左边
+public static Node rotateRight(Node head, int n) {
+	if (head == null || head.next == null)
+		return head;
+	Node target = head;
+	int len = 1;
+	while (target.next != null) {
+		len++;
+		target = target.next;
+	}
+	// System.out.println("len：" + len + " target: " + target);
+	target.next = head;// 首尾相连构成环
+	for (int i = 1; i < len - n % len; i++) {
+		head = head.next;// 走到需要断开位置的前一位置
+	}
+	target = head.next;
+	head.next = null;
+	return target;
+}
+
+//Given a singly linked list L: L0→L1→…→Ln-1→Ln,
+//reorder it to: L0→Ln→L1→Ln-1→L2→Ln-2→…
+public static Node reorderList(Node head) {
+	if (head == null || head.next == null)
+		return head;
+	// 首先，找到中间点，分为前后两部分
+	Node slow = head;
+	Node fast = head.next;
+	while (fast != null && fast.next != null) {
+		slow = slow.next;
+		fast = fast.next.next;
+	}
+	// 其次，将后部分的链表进行逆置
+	Node second = slow.next;
+	Node pre_rever = null;
+	Node nex_rever = null;
+	while (second != null) {
+		nex_rever = second.next;
+		second.next = pre_rever;
+		pre_rever = second;
+		second = nex_rever;
+	}
+	// 最后对前后两部分head和second进行交叉连接
+	Node temp_second = pre_rever;
+	slow.next = null;
+	Node temp_head = head;
+	while (temp_second != null) {
+		Node pre = temp_second.next;
+		// System.out.println("temp.value: " + temp.value);
+		temp_second.next = temp_head.next;
+		temp_head.next = temp_second;
+		temp_second = pre;
+		temp_head = temp_head.next.next;
+	}
+	return head;
+}

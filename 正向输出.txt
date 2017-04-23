@@ -1,0 +1,11 @@
+//Á´±íÕıĞòÊä³ö
+public static void display(Node head) {
+	while (head != null) {
+		if (head.next == null) {
+			System.out.println(head.value);
+		} else {
+			System.out.print(head.value + " -> ");
+		}
+		head = head.next;
+	}
+}

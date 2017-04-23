@@ -1,0 +1,80 @@
+//判断一个单链表中是否有环,快慢指针
+public static boolean isExistCycleList(Node head) {
+	/*
+	 * 时间复杂度为O(n)，空间复杂度为O(1) 当一个存在环的链表足够长，而环足够小，那么会存在快指针永远不会追上慢指针的情况。
+	 * 快慢指针只适用于环出现在链表尾部的情况，也就是单链表环的问题，而无法解决链表存在循环的问题
+	 */
+	if (head == null || head.next == null)
+		return false;
+	Node fast = head;
+	Node slow = head;
+	while (fast != null && fast.next != null) {
+		fast = fast.next.next;
+		slow = slow.next;
+		if (slow == fast)
+			return true;
+	}
+	slow = null;
+	fast = null;
+	return false;
+}
+
+//判断一个单链表中是否有环,利用set的无重复性
+public static boolean isExistCycleListBySet(Node head) {
+	if (head == null || head.next == null)
+		return false;
+	HashSet<Node> set = new HashSet<Node>();
+	while (head != null) {
+		if (set.contains(head))
+			return true;
+		else {
+			set.add(head);
+			head = head.next;
+		}
+	}
+	return false;
+}
+
+//已知一个单链表中存在环，求进入环中的第一个节点,利用hashmap
+public static Node getFirstNodeInCycleHashMap(Node head) {
+	Node target = null;
+	HashMap<Node, Boolean> map = new HashMap<Node, Boolean>();
+	while (head != null) {
+		if (map.containsKey(head)) {
+			target = head;
+			break;
+		} else {
+			map.put(head, true);
+			head = head.next;
+		}
+	}
+	return target;
+}
+
+//已知一个单链表中存在环，求进入环中的第一个节点,利用快慢指针
+public static Node getFirstNodeInCycleFSPointer(Node head) {
+	/*
+	 * 用快慢指针，与判断一个单链表中是否有环一样，找到快慢指针第一次相交的节点，
+	 * 此时这个节点距离环开始节点的长度和链表投距离环开始的节点的长度相等
+	 */
+	Node fast = head;
+	Node slow = head;
+	// 找到快慢指针第一次相交的节点
+	while (fast != null && fast.next != null) {
+		fast = fast.next.next;
+		slow = slow.next;
+		if (slow == fast)
+			break;
+	}
+	if (fast == null || fast.next == null)
+		return null;
+	// slow从链表头出发,fast从第一次相遇的位置出发,再次相遇时即为环开始的地方。
+	// 详见我博客**************************
+	slow = head;
+	while (slow != fast) {
+		slow = slow.next;
+		fast = fast.next;
+	}
+	fast = null;
+	return slow;
+}
