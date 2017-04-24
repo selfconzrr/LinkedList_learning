@@ -1,4 +1,4 @@
-//ͨ��ջ������������ʵ�������������
+//通过栈的先入后出特性实现链表逆序输出
 public static void reverseShowByStack(Node head) {
 
 	Stack<Node> stack = new Stack<Node>();
@@ -12,11 +12,20 @@ public static void reverseShowByStack(Node head) {
 	System.out.println();
 }
 
-//�ݹ�ʵ�������������
+//递归实现链表逆序输出
 public static void reverseShowByRecursive(Node head) {
 	if (head == null)
 		return;
 	else
 		reverseByRecursive(head.next);
 	System.out.print(head.value + " -> ");
+}
+//利用动态数组实现逆序输出
+public static ArrayList<Integer> printListFromTailToHead(Node listNode) {
+	ArrayList<Integer> arr = new ArrayList<Integer>();
+	while (listNode != null) {
+		arr.add(0, listNode.value);
+		listNode = listNode.next;
+	}
+	return arr;
 }
