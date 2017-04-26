@@ -45,7 +45,17 @@ public class LinkedList {
 		}
 		System.out.println();
 	}
-//	通过递归实现逆序输出
+//	利用动态数组实现逆序输出
+	public static ArrayList<Integer> printListFromTailToHead(Node listNode) {
+		ArrayList<Integer> arr = new ArrayList<Integer>();
+		while (listNode != null) {
+			arr.add(0, listNode.value);
+			listNode = listNode.next;
+		}
+		return arr;
+	}
+
+//  通过递归实现逆序输出
 	public static void reverseByRecursive(Node head) {
 		if (head == null)
 			return;
@@ -53,6 +63,17 @@ public class LinkedList {
 			reverseByRecursive(head.next);
 		System.out.print(head.value + " -> ");
 	}
+
+//  利用递归和动态数组
+	ArrayList<Integer> arrayList = new ArrayList<Integer>();
+	public ArrayList<Integer> printListFromTailToHead1(Node listNode) {
+		if (listNode != null) {
+			this.printListFromTailToHead1(listNode.next);
+			arrayList.add(listNode.value);
+		}
+		return arrayList;
+	}
+	
 //	获取链表的长度
 	public static int getListLength(Node head) {
 		int length = 0;
@@ -127,15 +148,15 @@ public class LinkedList {
 		}
 		return helper.next;
 	}
-//	查找链表中倒数第k个节点
+//	查找链表中倒数第k个节点 k>=0
 	public static Node searchKthLastNode(Node head, int k) {
 		if (head == null || k < 0)
 			return head;
-		if (k > getListLength(head))
+		if (k >= getListLength(head))
 			return null;
 		Node target = head;
 		Node temp = head;
-		for (int i = 0; i < k; i++) {
+		for (int i = 0; i <= k; i++) {
 			temp = temp.next;
 		}
 		// n-k
@@ -145,7 +166,7 @@ public class LinkedList {
 		}
 		temp = null;
 		target.next = null;
-		// System.out.print("target.value: " + target.value + "  ");
+		System.out.print("target.value: " + target.value + "  ");
 		return target;
 	}
 //	查找链表中中间节点
@@ -153,15 +174,22 @@ public class LinkedList {
 		if (head == null || head.next == null)
 			return head;
 		// 一般查找问题都是两个指向头节点的指针（快慢指针）共同移动。
+		int length = getListLength(head);
 		Node fast = head;
 		Node slow = head;
+		Node temp = slow;//如果有两个中间节点，取前一个
 		while (fast != null && fast.next != null) {
+			temp = slow;
 			fast = fast.next.next;
 			slow = slow.next;
 		}
+		temp.next = null;
 		slow.next = null;
-		// System.out.print("slow.value: " + slow.value + "  ");
-		return slow;
+		//System.out.print("temp.value: " + temp.value + " slow.value: " + slow.value);
+		if(length % 2 != 0)
+			return slow;
+		else
+			return temp;
 	}
 //	删除倒数第n个节点
 	public static Node removeNthLastNode(Node head, int n) {
@@ -266,7 +294,7 @@ public class LinkedList {
 		fast = null;
 		return slow;
 	}
-//	判断两个链表是否相交
+//	判断两个链表是否相交 思路一
 	public static Node isIntersect(Node head1, Node head2) {
 		/*
 		 * 如果两个没有环的链表相交于某个节点，那么在这个节点之后的所有节点都是两个链表所共有的
@@ -297,6 +325,33 @@ public class LinkedList {
 		}
 		return target;
 	}
+	
+//	判断两个链表是否相交 思路二
+public static Node isIntersect2(Node head1, Node head2) {
+	/*
+	假定List1长度:a+n，List2 长度:b+n,且a<b(同理a>=b)
+	那么p1会先到链表尾部,这时p2走到a+n位置,将p1换成List2头部
+	接着p2再走b+n-(n+a)=b-a 步到链表尾部,这时p1也走到List2的b-a位置，还差a步就到可能的第一个公共节点。
+	将p2换成List1头部，p2走a步也到可能的第一个公共节点。如果恰好p1==p2,那么p1就是第一个公共节点。
+	或者p1和p2一起走n步到达列表尾部，二者没有公共节点，退出循环 
+	时间复杂度O(n+a+b)
+	*/
+	Node p1 = head1;
+	Node p2 = head2;
+	while (p1 != p2) {
+		p1 = (p1 == null) ? head2 : p1.next;
+		p2 = (p2 == null) ? head1 : p2.next;
+		// 上面两行代码是下面几句的精简版
+//			if (p1 != null) p1 = p1.next;
+//			if (p2 != null) p2 = p2.next;
+//			if (p1 != p2) {
+//				if (p1 == null) p1 = head2;
+//				if (p2 == null) p2 = head1;
+//			}
+	}
+	return p1;
+}
+	
 //	利用递归合并两个有序链表
 	public static Node mergeTwoListRecursive(Node head1, Node head2) {
 		if (head1 == null)
@@ -413,7 +468,7 @@ public class LinkedList {
 		}
 		return pre;
 	}
-//	删除链表里的重复元素，一个不留
+//	删除链表里的重复元素，一个不留（思路一）
 	public static Node removeDuplicateListAll(Node head) {
 		if (head == null || head.next == null)
 			return head;
@@ -439,6 +494,26 @@ public class LinkedList {
 		}
 		return pre.next;
 	}
+	
+//	删除链表里的重复元素，一个不留（思路二：递归）
+	public static Node deleteDuplication(Node pHead) {
+		if (pHead == null)
+			return null;
+		if (pHead != null && pHead.next == null)
+			return pHead;
+		Node current;
+		if (pHead.next.value == pHead.value) {
+			current = pHead.next.next;
+			while (current != null && current.value == pHead.value)
+				current = current.next;
+			return deleteDuplication(current);
+		} else {
+			current = pHead.next;
+			pHead.next = deleteDuplication(current);
+			return pHead;
+		}
+	}
+	
 //	前后两两交换元素的值（递归）
 	public static Node swapPairs(Node head) {
 		if (head == null || head.next == null)
@@ -544,7 +619,81 @@ public class LinkedList {
 		}
 		return head;
 	}
-
+	
+//	判断是否为回文链表  利用栈的特性
+	public static Boolean isPalindrome(Node head) {
+		if(head == null)
+			return false;
+		 Stack<Integer> sta = new Stack<Integer>();
+	        Node temp = head;
+	        while(temp != null){
+	            sta.push(temp.value);
+	            temp = temp.next;
+	        }
+	        while(!sta.isEmpty()){
+	            if(sta.pop() != head.value)
+	                return false;
+	            head = head.next;
+	        }
+	        return true;
+	}
+	
+//	判断是否为回文链表  利用栈和快慢指针的特性，减少空间开销
+	public static Boolean isPalindrome2(Node head){
+		if(head == null)
+            return false;
+        Node slow = head;
+        Node fast = head;
+        Stack<Integer> sta = new Stack<Integer>();
+        while(fast !=null && fast.next != null){
+            sta.push(slow.value);
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        if(fast != null)//如果有奇数个节点，slow再往后移动一个
+            slow = slow.next;
+       
+        while(!sta.isEmpty()){
+            if(sta.pop() != slow.value)
+                return false;
+            slow = slow.next;
+        }
+        return true;
+	}
+	
+//	判断是否为回文链表  先反转，再和之前的依次比较
+//	public static Boolean isPalindrome3(Node head){
+//		if(head == null)
+//			return false;
+//		Node temp = head;
+//		Node reverseHead = reverseList(temp);
+//		while(head != null){ ///head 为什么只剩一个节点了？？
+//			System.out.print(head.value + " -> ");
+//			head = head.next;
+//		}
+//		System.out.println();
+//		while(reverseHead != null){
+//			System.out.print(reverseHead.value + " -> ");
+//			reverseHead = reverseHead.next;
+//		}
+//        return true;
+//	}
+	
+//	判断是否为回文链表  递归的思想
+	static Node temp_pp = null;
+	public static Boolean isPalindrome4(Node head){
+		if(head == null)
+            return true;      
+        if(temp_pp == null)
+        	temp_pp = head;
+        if(isPalindrome4(head.next) && (temp_pp.value == head.value)){
+        	temp_pp = temp_pp.next;
+            return true;
+        }
+        temp_pp = null;
+        return false;
+	}
+	
 	public static void main(String[] args) {
 		/*
 		 * 主函数： （注）上面有很多函数体并未在下面调用大家可按需查找，调用测试。 
@@ -584,8 +733,8 @@ public class LinkedList {
 		// break;
 		// }
 
-		// System.out.print("输入两个整数： ");
-		// int m = scan.nextInt();
+		 System.out.print("输入两个整数： ");
+		//int m = scan.nextInt();
 		// int n = scan.nextInt();
 		scan.close();
 
@@ -616,7 +765,8 @@ public class LinkedList {
 		// case 6
 		// System.out.print("删除全部重复元素后： ");
 		// Node removeDuplicateAll = removeDuplicateListAll(head);
-		// display(removeDuplicateAll);
+		Node removeDuplicateAllDG = deleteDuplication(head);
+		display(removeDuplicateAllDG);
 
 		// case 7
 		// System.out.print("删除重复元素后： ");
@@ -673,8 +823,19 @@ public class LinkedList {
 		// display(reHead);
 
 		// case 18
-		// System.out.print("输出中间节点后的链表元素： ");
-		// Node midHead = searchMiddleNode(head);
-		// display(midHead);
+//		 System.out.print("输出中间节点后的链表元素： ");
+//		 Node midHead = searchKthLastNode(head, m);
+//		 display(midHead);
+		
+		// case 19
+//		 System.out.print("通过动态数组实现链表逆序输出： ");
+//		 printListFromTailToHead(head);
+//		 System.out.println();
+		
+		// case 20
+//		 System.out.println("栈：是回文链表吗？：  " + isPalindrome(head));
+//		 System.out.println("栈和快慢指针：是回文链表吗？：  " + isPalindrome2(head));
+//		 //System.out.println("是回文链表吗？：  " + isPalindrome3(head));
+//		 System.out.println("递归思路：是回文链表吗？：  " + isPalindrome4(head));
 	}
 }
