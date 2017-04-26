@@ -20,6 +20,7 @@ public static void reverseShowByRecursive(Node head) {
 		reverseByRecursive(head.next);
 	System.out.print(head.value + " -> ");
 }
+
 //利用动态数组实现逆序输出
 public static ArrayList<Integer> printListFromTailToHead(Node listNode) {
 	ArrayList<Integer> arr = new ArrayList<Integer>();
@@ -28,4 +29,14 @@ public static ArrayList<Integer> printListFromTailToHead(Node listNode) {
 		listNode = listNode.next;
 	}
 	return arr;
+}
+
+//利用递归和动态数组
+ArrayList<Integer> arrayList = new ArrayList<Integer>();
+public ArrayList<Integer> printListFromTailToHead1(Node listNode) {
+	if (listNode != null) {
+		this.printListFromTailToHead1(listNode.next);
+		arrayList.add(listNode.value);
+	}
+	return arrayList;
 }
