@@ -1,0 +1,79 @@
+//判断链表是不是回文链表 方法四有点问题，待更新
+一：栈
+public static Boolean isPalindrome(Node head) {
+	if(head == null)
+		return false;
+	 Stack<Integer> sta = new Stack<Integer>();
+        Node temp = head;
+        while(temp != null){
+            sta.push(temp.value);
+            temp = temp.next;
+        }
+        while(!sta.isEmpty()){
+            if(sta.pop() != head.value)
+                return false;
+            head = head.next;
+        }
+        return true;
+}
+
+二：快慢指针和栈
+
+利用一个快指针，慢指针。慢指针每次走一步，快指针每次走两步。把慢指针走过的结点入栈 
+比较栈中结点跟慢指针剩余为走过的结点（特别注意链表长度是奇数还是偶数，如果是奇数，慢指针应该跳过中间结点再进行比较）
+public static Boolean isPalindrome2(Node head){
+	if(head == null)
+        return false;
+    Node slow = head;
+    Node fast = head;
+    Stack<Integer> sta = new Stack<Integer>();
+    while(fast !=null && fast.next != null){
+        sta.push(slow.value);
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    if(fast != null)//如果有奇数个节点，slow再往后移动一个
+        slow = slow.next;
+   
+    while(!sta.isEmpty()){
+        if(sta.pop() != slow.value)
+            return false;
+        slow = slow.next;
+    }
+    return true;
+}
+
+三：递归
+
+static Node temp_pp = null;
+public static Boolean isPalindrome4(Node head){
+	if(head == null)
+        return true;      
+    if(temp_pp == null)
+    	temp_pp = head;
+    if(isPalindrome4(head.next) && (temp_pp.value == head.value)){
+    	temp_pp = temp_pp.next;
+        return true;
+    }
+    temp_pp = null;
+    return false;
+}
+
+四：还有问题：
+//	判断是否为回文链表  先反转，再和之前的依次比较
+//	public static Boolean isPalindrome3(Node head){
+//		if(head == null)
+//			return false;
+//		Node temp = head;
+//		Node reverseHead = reverseList(temp);
+//		while(head != null){ ///head 为什么只剩一个节点了？？
+//			System.out.print(head.value + " -> ");
+//			head = head.next;
+//		}
+//		System.out.println();
+//		while(reverseHead != null){
+//			System.out.print(reverseHead.value + " -> ");
+//			reverseHead = reverseHead.next;
+//		}
+//        return true;
+//	}
