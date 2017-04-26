@@ -1,9 +1,9 @@
-////É¾³ıÄ³Ò»ÌØ¶¨½Úµã
+////åˆ é™¤æŸä¸€ç‰¹å®šèŠ‚ç‚¹
 public static Node deleteOneNode(Node head, Node delNode) {
 	if (head == null || delNode == null)
 		return head;
 	if (delNode.next == null) {
-		// Î²½Úµã
+		// å°¾èŠ‚ç‚¹
 		Node temp = head;
 		while (temp.next != null) {
 			if (temp.next == delNode)
@@ -11,7 +11,7 @@ public static Node deleteOneNode(Node head, Node delNode) {
 			temp = temp.next;
 		}
 	} else {
-		// ·ÇÎ²½Úµã
+		// éå°¾èŠ‚ç‚¹
 		Node p = delNode.next;
 		delNode.value = p.value;
 		delNode.next = p.next;
@@ -19,7 +19,7 @@ public static Node deleteOneNode(Node head, Node delNode) {
 	return head;
 }
 
-//É¾³ıµ¹ÊıµÚn¸ö½Úµã
+//åˆ é™¤å€’æ•°ç¬¬nä¸ªèŠ‚ç‚¹
 
 public static Node removeNthLastNode(Node head, int n) {
 	if (head == null || n < 0)
@@ -29,15 +29,15 @@ public static Node removeNthLastNode(Node head, int n) {
 	Node temp = head;
 	Node target = head;
 	while (n > 0) {
-		temp = temp.next;// ¶¨Î»µ¹ÊıµÚn¸ö½Úµã
+		temp = temp.next;// å®šä½å€’æ•°ç¬¬nä¸ªèŠ‚ç‚¹
 		n--;
 	}
 	// System.out.print("temp.value: " + temp.value + "  ");
-	// É¾³ıµÚÒ»¸ö½Úµã
+	// åˆ é™¤ç¬¬ä¸€ä¸ªèŠ‚ç‚¹
 	if (temp == null)
 		return head.next;
 	while (temp.next != null) {
-		target = target.next;// ¶¨Î»µ¹ÊıµÚn+1¸ö½Úµã
+		target = target.next;// å®šä½å€’æ•°ç¬¬n+1ä¸ªèŠ‚ç‚¹
 		temp = temp.next;
 	}
 	temp = null;
@@ -47,7 +47,7 @@ public static Node removeNthLastNode(Node head, int n) {
 	return head;
 }
 
-//È¥³ıÓĞĞòÁ´±íµÄÖØ¸´ÔªËØ ¶ÔÓÚÖØ¸´ÔªËØÖ»±£ÁôÒ»¸ö¡£
+//å»é™¤æœ‰åºé“¾è¡¨çš„é‡å¤å…ƒç´  å¯¹äºé‡å¤å…ƒç´ åªä¿ç•™ä¸€ä¸ªã€‚
 public static Node removeDuplicateList(Node head) {
 	if (head == null || head.next == null)
 		return head;
@@ -62,22 +62,22 @@ public static Node removeDuplicateList(Node head) {
 	return pre;
 }
 
-//È¥³ıÓĞĞòÁ´±íµÄÖØ¸´ÔªËØ ¶ÔÓÚÖØ¸´ÔªËØÈ«²¿É¾µô¡£
+//å»é™¤æœ‰åºé“¾è¡¨çš„é‡å¤å…ƒç´  å¯¹äºé‡å¤å…ƒç´ å…¨éƒ¨åˆ æ‰ æ€è·¯ä¸€ã€‚
 public static Node removeDuplicateListAll(Node head) {
 	if (head == null || head.next == null)
 		return head;
 	Node pre = new Node(0);
 	pre.next = head;
-	Node fir = pre;// fir±£´æµÄÊÇµ±Ç°½ÚµãµÄÇ°Ò»¸ö½Úµã
+	Node fir = pre;// firä¿å­˜çš„æ˜¯å½“å‰èŠ‚ç‚¹çš„å‰ä¸€ä¸ªèŠ‚ç‚¹
 	Node sec = head;
 	while (sec != null) {
 		int value = sec.value;
 		int count_repeat = 0;
 		while (sec != null && value == sec.value) {
 			sec = sec.next;
-			count_repeat++;// Í³¼ÆÃ¿¸ö½ÚµãÖØ¸´´ÎÊı
+			count_repeat++;// ç»Ÿè®¡æ¯ä¸ªèŠ‚ç‚¹é‡å¤æ¬¡æ•°
 		}
-		if (count_repeat > 1) {// Èô³öÏÖ´ÎÊı´óÓÚ1£¬ËµÃ÷¸Ã½Úµã¶ÔÓ¦µÄÖµĞèÒªÉ¾µô
+		if (count_repeat > 1) {// è‹¥å‡ºç°æ¬¡æ•°å¤§äº1ï¼Œè¯´æ˜è¯¥èŠ‚ç‚¹å¯¹åº”çš„å€¼éœ€è¦åˆ æ‰
 			fir.next = sec;
 		} else {
 			fir = fir.next;
@@ -87,4 +87,22 @@ public static Node removeDuplicateListAll(Node head) {
 		}
 	}
 	return pre.next;
+}
+//å»é™¤æœ‰åºé“¾è¡¨çš„é‡å¤å…ƒç´  å¯¹äºé‡å¤å…ƒç´ å…¨éƒ¨åˆ æ‰ã€‚æ€è·¯äºŒ é€’å½’
+public static Node deleteDuplication(Node pHead) {
+	if (pHead == null)
+		return null;
+	if (pHead != null && pHead.next == null)
+		return pHead;
+	Node current;
+	if (pHead.next.value == pHead.value) {
+		current = pHead.next.next;
+		while (current != null && current.value == pHead.value)
+			current = current.next;
+		return deleteDuplication(current);
+	} else {
+		current = pHead.next;
+		pHead.next = deleteDuplication(current);
+		return pHead;
+	}
 }
