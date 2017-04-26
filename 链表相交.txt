@@ -1,11 +1,14 @@
-//�ж������������Ƿ��ཻ,����ཻ���ص�һ���ڵ㣬���򷵻�null  
-//����������ж��Ƿ��ཻ��ֻ��Ҫ�����һ��ָ���Ƿ����
+//方案一：
+//判断两个单链表是否相交,如果相交返回第一个节点，否则返回null 
+//如果单纯的判断是否相交，只需要看最后一个指针是否相等
 public static Node isIntersect(Node head1, Node head2) {
 	/*
-	 * �������û�л��������ཻ��ĳ���ڵ㣬��ô������ڵ�֮������нڵ㶼���������������е�
-	 * 1����������1����¼�䳤��len1����������2����¼�䳤��len2
-	 * 2����β�����룬������������ĳ��Ȳ���ͬ���ó��ȸ������Ǹ�������ͷ�ڵ��ȱ���abs(len1-en2),������������ָ��ָ������λ��
-	 * 3��Ȼ������������ͷ���������������ʱ�����ǽ����Ľڵ� ʱ�临�Ӷ�O(n+m)���ռ临�Ӷ�O(1)
+	 * 如果两个没有环的链表相交于某个节点，那么在这个节点之后的所有节点都是两个链表所共有的
+	 * 1）遍历链表1，记录其长度len1，遍历链表2，记录其长度len2
+	 * 2）按尾部对齐，如果两个链表的长度不相同，让长度更长的那个链表从头节点先遍历abs(len1-en2),这样两个
+
+链表指针指向对齐的位置
+	 * 3）然后两个链表齐头并进，当它们相等时，就是交集的节点 时间复杂度O(n+m)，空间复杂度O(1)
 	 */
 	Node target = null;
 	if (head1 == null || head2 == null)
@@ -29,4 +32,30 @@ public static Node isIntersect(Node head1, Node head2) {
 		}
 	}
 	return target;
+}
+
+///方案二：用两个指针扫描”两个链表“，最终两个指针到达 null 或者到达公共结点。
+/*
+假定List1长度:a+n，List2 长度:b+n,且a<b(同理a>=b)
+那么p1会先到链表尾部,这时p2走到a+n位置,将p1换成List2头部
+接着p2再走b+n-(n+a)=b-a 步到链表尾部,这时p1也走到List2的b-a位置，还差a步就到可能的第一个公共节点。
+将p2换成List1头部，p2走a步也到可能的第一个公共节点。如果恰好p1==p2,那么p1就是第一个公共节点。
+或者p1和p2一起走n步到达列表尾部，二者没有公共节点，退出循环 
+时间复杂度O(n+a+b)
+*/
+public static Node isIntersect2(Node head1, Node head2) {
+	Node p1 = head1;
+	Node p2 = head2;
+	while (p1 != p2) {
+		p1 = (p1 == null) ? head2 : p1.next;
+		p2 = (p2 == null) ? head1 : p2.next;
+		// 上面两行代码是下面几句的精简版
+//			if (p1 != null) p1 = p1.next;
+//			if (p2 != null) p2 = p2.next;
+//			if (p1 != p2) {
+//				if (p1 == null) p1 = head2;
+//				if (p2 == null) p2 = head1;
+//			}
+	}
+	return p1;
 }
