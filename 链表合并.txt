@@ -1,4 +1,4 @@
-//ºÏ²¢Á½¸öÓĞĞòµÄµ¥Á´±íhead1ºÍhead2(µİ¹é·½Ê½ÊµÏÖ)
+//åˆå¹¶ä¸¤ä¸ªæœ‰åºçš„å•é“¾è¡¨head1å’Œhead2(é€’å½’æ–¹å¼å®ç°)
 public static Node mergeTwoListRecursive(Node head1, Node head2) {
 	if (head1 == null)
 		return head2;
@@ -15,7 +15,7 @@ public static Node mergeTwoListRecursive(Node head1, Node head2) {
 	return head;
 }
 
-//ºÏ²¢Á½¸öÓĞĞòµÄµ¥Á´±íhead1ºÍhead2(Ñ­»··½Ê½ÊµÏÖ) ¹é²¢µÄË¼Ïë
+//åˆå¹¶ä¸¤ä¸ªæœ‰åºçš„å•é“¾è¡¨head1å’Œhead2(å¾ªç¯æ–¹å¼å®ç°) å½’å¹¶çš„æ€æƒ³
 
 public static Node mergeTwoList(Node head1, Node head2) {
 	if (head1 == null)
@@ -26,10 +26,10 @@ public static Node mergeTwoList(Node head1, Node head2) {
 	Node temp = head;
 	while (head1 != null && head2 != null) {
 		if (head1.value < head2.value) {
-			temp = head1;
+			temp.next = head1;
 			head1 = head1.next;
 		} else {
-			temp = head2;
+			temp.next = head2;
 			head2 = head2.next;
 		}
 		temp = temp.next;
@@ -40,7 +40,7 @@ public static Node mergeTwoList(Node head1, Node head2) {
 		temp.next = head2;
 	return head.next;
 }
-//ºÏ²¢k¸öÓĞĞòµÄµ¥Á´±í(Ñ­»··½Ê½ÊµÏÖ)  ¹é²¢µÄË¼Ïë
+//åˆå¹¶kä¸ªæœ‰åºçš„å•é“¾è¡¨(å¾ªç¯æ–¹å¼å®ç°)  å½’å¹¶çš„æ€æƒ³
 public Node mergeKLists(ArrayList<Node> lists) {
 	if (lists == null || lists.size() == 0)
 		return null;
