@@ -1,0 +1,21 @@
+public static Node partition(Node head, int x) {
+	if (head == null)
+		return head;
+	Node first = new Node(0);
+	Node second = new Node(0);
+	Node temp_fir = first;
+	Node temp_sec = second;
+	while (head != null) {
+		if (head.value < x) {
+			first.next = head;
+			first = first.next;
+		} else {
+			second.next = head;
+			second = second.next;
+		}
+		head = head.next;
+	}
+	second.next = null;//如果链表最后一个元素小于x，则second.next不为null
+	first.next = temp_sec.next;
+	return temp_fir.next;
+}
