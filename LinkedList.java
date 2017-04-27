@@ -461,7 +461,7 @@ public static Node isIntersect2(Node head1, Node head2) {
 		Node pre = head;
 		while (head != null && head.next != null) {
 			if (head.value == head.next.value) {
-				head = head.next.next;
+				head.next = head.next.next;
 			} else {
 				head = head.next;
 			}
