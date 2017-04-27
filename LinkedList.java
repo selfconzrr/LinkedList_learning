@@ -378,10 +378,10 @@ public static Node isIntersect2(Node head1, Node head2) {
 		Node temp = head;
 		while (head1 != null && head2 != null) {
 			if (head1.value < head2.value) {
-				temp = head1;
+				temp.next = head1;
 				head1 = head1.next;
 			} else {
-				temp = head2;
+				temp.next = head2;
 				head2 = head2.next;
 			}
 			temp = temp.next;
