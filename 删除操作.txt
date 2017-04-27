@@ -54,7 +54,7 @@ public static Node removeDuplicateList(Node head) {
 	Node pre = head;
 	while (head != null && head.next != null) {
 		if (head.value == head.next.value) {
-			head = head.next.next;
+			head.next = head.next.next;
 		} else {
 			head = head.next;
 		}
