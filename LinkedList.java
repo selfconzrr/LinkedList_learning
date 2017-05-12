@@ -45,7 +45,7 @@ public class LinkedList {
 		}
 		System.out.println();
 	}
-//	利用动态数组实现逆序输出
+//	利用动态数组实现逆序输出（前插法）
 	public static ArrayList<Integer> printListFromTailToHead(Node listNode) {
 		ArrayList<Integer> arr = new ArrayList<Integer>();
 		while (listNode != null) {
