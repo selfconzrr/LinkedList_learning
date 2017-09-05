@@ -1,4 +1,4 @@
-//ÇóÁ´±í³¤¶È
+// è·å–é“¾è¡¨çš„é•¿åº¦
 public static int getListLength(Node head) {
 	int length = 0;
 	while (head != null) {
