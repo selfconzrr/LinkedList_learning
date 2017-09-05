@@ -1,4 +1,4 @@
-//²éÕÒµ¹ÊýµÚK¸ö½áµã£¨k > 0£©
+//æŸ¥æ‰¾å€’æ•°ç¬¬Kä¸ªç»“ç‚¹ï¼ˆk > 0ï¼‰
 public static Node searchKthLastNode(Node head, int k) {
 	if (head == null || k < 0)
 		return head;
@@ -20,18 +20,43 @@ public static Node searchKthLastNode(Node head, int k) {
 	return target;
 }
 
-//²éÕÒµ¥Á´±íµÄÖÐ¼ä½áµã 
+//æŸ¥æ‰¾å•é“¾è¡¨çš„ä¸­é—´ç»“ç‚¹ 
 public static Node searchMiddleNode(Node head) {
 	if (head == null || head.next == null)
 		return head;
-	// Ò»°ã²éÕÒÎÊÌâ¶¼ÊÇÁ½¸öÖ¸ÏòÍ·½ÚµãµÄÖ¸Õë£¨¿ìÂýÖ¸Õë£©¹²Í¬ÒÆ¶¯¡£
+	// ä¸€èˆ¬æŸ¥æ‰¾é—®é¢˜éƒ½æ˜¯ä¸¤ä¸ªæŒ‡å‘å¤´èŠ‚ç‚¹çš„æŒ‡é’ˆï¼ˆå¿«æ…¢æŒ‡é’ˆï¼‰å…±åŒç§»åŠ¨ã€‚
+	int length = getListLength(head);
 	Node fast = head;
 	Node slow = head;
+	Node temp = slow;// å¦‚æžœæœ‰ä¸¤ä¸ªä¸­é—´èŠ‚ç‚¹ï¼Œå–å‰ä¸€ä¸ª
 	while (fast != null && fast.next != null) {
+		temp = slow;
 		fast = fast.next.next;
 		slow = slow.next;
 	}
+	temp.next = null;
 	slow.next = null;
-	// System.out.print("slow.value: " + slow.value + "  ");
-	return slow;
+	System.out.print("temp.value = " + temp.value + " slow.value = "
+			+ slow.value);
+	if (length % 2 != 0)
+		return slow;
+	else
+		return temp;
+}
+
+// æŸ¥æ‰¾é“¾è¡¨ä¸­ä¸­é—´èŠ‚ç‚¹ 09/05/2017 è¡¥å……å¦ä¸€ç§æ— éœ€æ±‚é•¿åº¦çš„æ–¹æ³•
+// ä¸€å¼€å§‹å°±ä½¿å¿«æŒ‡é’ˆå…ˆèµ°ä¸€æ­¥
+public static Node searchMiddleNode2nd(Node head) {
+	if (head == null || head.next == null)
+		return head;
+	Node pre = head;
+	Node cur = head.next.next;
+	while (cur != null) {
+		pre = pre.next;
+		if (cur.next == null || cur.next.next == null)
+			break;
+		cur = cur.next.next;
+	}
+	System.out.print("pre = " + pre.value);
+	return pre;
 }
