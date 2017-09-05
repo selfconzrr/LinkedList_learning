@@ -1,4 +1,4 @@
-//Á´±íÕıĞòÊä³ö
+// è¾“å‡ºå‡½æ•°
 public static void display(Node head) {
 	while (head != null) {
 		if (head.next == null) {
