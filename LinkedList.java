@@ -253,11 +253,9 @@ public class LinkedList {
 		if (head == null || head.next == null)
 			return head;
 		Node pre = head;
-		Node cur = head.next.next;
-		while (cur != null) {
+		Node cur = head.next;
+		while (cur != null && cur.next != null) {
 			pre = pre.next;
-			if (cur.next == null || cur.next.next == null)
-				break;
 			cur = cur.next.next;
 		}
 		System.out.print("pre = " + pre.value);
