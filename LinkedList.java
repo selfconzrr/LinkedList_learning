@@ -24,48 +24,6 @@ public class LinkedList {
 		}
 	}
 
-	// LeetCode 每日一题
-	// Merge k sorted linked lists and return it as one sorted list.
-	// Analyze and describe its complexity.
-	public Node mergeKLists(Node[] lists) {
-		if (lists == null || lists.length == 0)
-			return null;
-		return mergeKList(lists, 0, lists.length - 1);
-	}
-
-	public Node mergeKList(Node[] lists, int low, int high) {
-		if (high <= low)
-			return lists[0];
-		int mid = low + (high - low) / 2;
-		Node left = mergeKList(lists, low, mid);
-		Node right = mergeKList(lists, mid + 1, high);
-		return mergeTwoLists(left, right);
-	}
-
-	public Node mergeTwoLists(Node l1, Node l2) {
-		if (l1 == null)
-			return l2;
-		if (l2 == null)
-			return l1;
-		Node head = new Node(0);
-		Node temp = head;
-		while (l1 != null && l2 != null) {
-			if (l1.value < l2.value) {
-				temp.next = l1;
-				l1 = l1.next;
-			} else {
-				temp.next = l2;
-				l2 = l2.next;
-			}
-			temp = temp.next;
-		}
-		if (l1 != null)
-			temp.next = l1;
-		if (l2 != null)
-			temp.next = l2;
-		return head.next;
-	}
-
 	// 输出函数
 	public static void display(Node head) {
 		while (head != null) {
@@ -201,7 +159,7 @@ public class LinkedList {
 		return helper.next;
 	}
 
-	// 查找链表中倒数第k个节点 k>=0
+	// 查找链表中倒数第k个节点 k>=0，注意k大于链表长度的情况
 	public static Node searchKthLastNode(Node head, int k) {
 		if (head == null || k < 0)
 			return head;
@@ -650,6 +608,7 @@ public class LinkedList {
 		return temp_fir.next;
 	}
 
+	// 将链表右边数n个结点移动到最左边
 	public static Node rotateRight(Node head, int n) {
 		if (head == null || head.next == null)
 			return head;
@@ -669,6 +628,45 @@ public class LinkedList {
 		return target;
 	}
 
+	// 每k个结点一组进行反转
+	public static Node reverseKGroup(Node head, int k) {
+		if (head == null || head.next == null)
+			return head;
+		Node helper = new Node(0);
+		helper.next = head;
+		Node pre = helper;
+		Node cur = head;
+		int count = 0;
+		while (cur != null) {
+			Node nex = cur.next;
+			count++;
+			if (count == k) {
+				count = 0;
+				pre = reverse(pre, nex);
+			}
+			cur = nex;
+		}
+		return helper.next;
+	}
+
+	public static Node reverse(Node start, Node end) {
+		if (start == null || start.next == null)
+			return start;
+		Node pre = start.next;
+		Node nex = start.next.next;
+		while (nex != end) {
+			Node temp_nex = nex.next;
+			nex.next = start.next;
+			start.next = nex;
+			nex = temp_nex;
+		}
+		pre.next = end;
+		return pre;
+	}
+	//////
+
+	// Given a singly linked list L: L0→L1→…→Ln-1→Ln,
+	// reorder it to: L0→Ln→L1→Ln-1→L2→Ln-2→…
 	public static Node reorderList(Node head) {
 		if (head == null || head.next == null)
 			return head;
@@ -679,6 +677,7 @@ public class LinkedList {
 			slow = slow.next;
 			fast = fast.next.next;
 		}
+		System.out.println("slow.value: " + slow.value);
 		// 其次，将后部分的链表进行逆置
 		Node second = slow.next;
 		Node pre_rever = null;
@@ -821,7 +820,7 @@ public class LinkedList {
 		// }
 
 		// System.out.print("输入两个整数： ");
-		// int m = scan.nextInt();
+		int m = scan.nextInt();
 		// int n = scan.nextInt();
 		scan.close();
 
@@ -829,7 +828,7 @@ public class LinkedList {
 		System.out.print("链表元素： ");
 		display(head);
 
-		System.out.print("输出中间节点： " + searchMiddleNode2nd(head));
+		// System.out.print("输出中间节点： " + searchMiddleNode2nd(head));
 		// Node dell = removeNthFromEnd(head, n);
 		// display(dell);
 
@@ -883,9 +882,9 @@ public class LinkedList {
 		// display(DGmergeSorted);
 
 		// case 11
-		// Node target = rotateRight(sortHead, x);
-		// System.out.print(leetcode将链表倒数k位反转： ");
-		// display(target);
+		Node target = reverseKGroup(head, m);
+		System.out.print("reorder：  ");
+		display(target);
 
 		// case 12
 		// Node sortHead = insertSortList(head);
